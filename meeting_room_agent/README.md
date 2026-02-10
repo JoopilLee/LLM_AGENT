@@ -5,9 +5,13 @@
 
 ## 구조
 
-- **core/** — 설정(`config.py`), 상태 타입(`state.py`), 빌딩/예약 데이터·CRUD(`data.py`)
-- **tools/** — 도구 입력 스키마(`schemas.py`), LangChain 도구 정의(`tools.py`)
-- **graph/** — 노드(`nodes.py`), 워크플로우 정의(`workflow.py`)
+- **app/** — 애플리케이션 코드 루트
+  - **app/core/** — 설정(`config.py`), 상태(`state.py`)
+  - **app/utils/** — 프롬프트 로더(`prompt_manager.py`), 빌딩 관리(`building_manager.py`)
+  - **app/services/** — 데이터 저장소(`store.py`), 빌딩 서비스(`building_service.py`), 예약 서비스(`reservation_service.py`)
+  - **app/graph/** — 노드(`nodes.py`), 워크플로우(`workflow.py`)
+  - **app/tools/** — 도구 스키마(`schemas.py`), 도구 정의(`tools.py`)
+- **data/** — `buildings/`(건물·층 YAML), `prompts/`(프롬프트 템플릿 `.yml`)
 - **run.py** — CLI 진입점
 
 ## 설정

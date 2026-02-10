@@ -1,10 +1,10 @@
-# meeting_room_agent/tools/tools.py - 회의실 예약 도구 정의
+# meeting_room_agent/app/tools/tools.py - 회의실 예약 도구 정의
 
 from typing import Any, Dict, List, Optional, Union
 
 from langchain.tools import tool
 
-from core.data import (
+from app.services import (
     ISO_FMT,
     add_reservation,
     cancel_reservation,
@@ -21,7 +21,7 @@ from core.data import (
     suggest_same_room_slots,
     update_reservation,
 )
-from tools.schemas import (
+from app.tools.schemas import (
     BuildingAndFloor,
     BuildingRequired,
     CancelBookingInput,

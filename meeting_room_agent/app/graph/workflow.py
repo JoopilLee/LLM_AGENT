@@ -1,9 +1,9 @@
-# meeting_room_agent/graph/workflow.py - 회의실 에이전트 LangGraph 워크플로우
+# meeting_room_agent/app/graph/workflow.py - 회의실 에이전트 LangGraph 워크플로우
 
 from langgraph.graph import END, START, StateGraph
 
-from core.state import AgentState
-from graph.nodes import (
+from app.core.state import AgentState
+from app.graph.nodes import (
     executor_node,
     init_node,
     planner_node,

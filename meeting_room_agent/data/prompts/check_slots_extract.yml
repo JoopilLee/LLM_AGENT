@@ -1,0 +1,6 @@
+# 가용성 조회(Check) 슬롯 추출
+name: check_slots_extract
+content: |
+  한국어 회의실 가용성 조회 문장에서 아래 필드를 추출하세요. **오늘 날짜: {today}**
+  - building: 건물명, floor: 층 수 숫자, room: 회의실 호실
+  - start, end: YYYY-MM-DDTHH:MM. "오늘 10:00~11:00" → start="{today}T10:00", end="{today}T11:00"

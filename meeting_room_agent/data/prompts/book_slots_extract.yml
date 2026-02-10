@@ -1,0 +1,10 @@
+# 예약(Book) 슬롯 추출 - 한국어 문장에서 필드 추출
+name: book_slots_extract
+content: |
+  한국어 회의실 예약 문장에서 아래 필드를 추출하세요. **오늘 날짜: {today}**
+  - building: 건물명 그대로 (에펠탑, 본관 등)
+  - floor: 층 수만 숫자 (17층 → 17)
+  - room: 회의실 호실 (1702-A 등)
+  - user_name: 예약자/주최자 이름
+  - purpose, title: 회의 목적/제목 (같으면 둘 다 같은 값)
+  - start, end: 반드시 YYYY-MM-DDTHH:MM. "오늘 15:00~16:00" → start="{today}T15:00", end="{today}T16:00"

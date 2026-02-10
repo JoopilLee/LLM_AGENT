@@ -1,12 +1,12 @@
-# meeting_room_agent/core/config.py - 환경 변수 및 LLM 설정
+# meeting_room_agent/app/core/config.py - 환경 변수 및 LLM 설정
 import os
 from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 
-# 프로젝트 루트(LLM_AGENT)의 .env 로드
-_env_path = Path(__file__).resolve().parent.parent.parent / ".env"
+# 프로젝트 루트(LLM_AGENT)의 .env 로드 (app/core 기준 → 3단계 상위)
+_env_path = Path(__file__).resolve().parent.parent.parent.parent / ".env"
 load_dotenv(dotenv_path=_env_path)
 
 
@@ -24,7 +24,7 @@ def get_llm() -> ChatOpenAI:
 llm = get_llm()
 
 
-def check_env_set() -> tuple[bool, str]:
+def check_env_set() -> tuple:
     """필수 환경 변수 설정 여부 확인."""
     required = ["OPENAI_API_KEY"]
     missing = [k for k in required if not os.getenv(k)]

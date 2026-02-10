@@ -1,4 +1,4 @@
-# meeting_room_agent/core/state.py - LangGraph 에이전트 상태 및 라우터 출력 스키마
+# meeting_room_agent/app/core/state.py - LangGraph 에이전트 상태 및 라우터 출력 스키마
 from typing import Any, Dict, List, Literal, Optional, TypedDict, Annotated
 
 from pydantic import BaseModel, Field

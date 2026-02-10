@@ -1,10 +1,10 @@
-# meeting_room_agent/tools/schemas.py - 도구 입력 Pydantic 스키마
+# meeting_room_agent/app/tools/schemas.py - 도구 입력 Pydantic 스키마
 
 from typing import Optional, Union
 
 from pydantic import BaseModel, Field, field_validator
 
-from core.data import ISO_FMT, parse_iso
+from app.services import ISO_FMT, parse_iso
 
 
 class BuildingRequired(BaseModel):

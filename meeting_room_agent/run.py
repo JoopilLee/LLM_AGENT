@@ -7,12 +7,12 @@
 import sys
 from pathlib import Path
 
-# 스크립트 디렉터리(meeting_room_agent)를 path에 넣어 core, graph, tools 패키지 인식
+# 스크립트 디렉터리(meeting_room_agent)를 path에 넣어 app 패키지 인식
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-import core.config  # noqa: F401 - .env 로드
-from core.config import check_env_set
-from graph.workflow import get_agent
+import app.core.config  # noqa: F401 - .env 로드
+from app.core.config import check_env_set
+from app.graph.workflow import get_agent
 
 
 def run(query: str) -> dict:
