@@ -1,10 +1,15 @@
 # ai_discussion/rag/search.py - 검색어 개선 및 위키피디아 수집
+import os
 import streamlit as st
 import wikipedia
+import requests
 from langchain_core.documents import Document
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from core.config import llm
+
+# SSL 검증 실패 시(프록시/방화벽): .env에 WIKIPEDIA_SSL_VERIFY=0 설정
+_WIKI_SSL_VERIFY = os.getenv("WIKIPEDIA_SSL_VERIFY", "1").strip().lower() not in ("0", "false", "no")
 
 
 def improve_search_query(topic: str, search_type: str = "general", language: str = "en"):
@@ -50,6 +55,13 @@ def get_wikipedia_content(
 ) -> list[Document]:
     """위키피디아에서 주제별 문서를 수집합니다. (Streamlit UI 피드백 포함)"""
     st.divider()
+    orig_get = None
+    if not _WIKI_SSL_VERIFY:
+        orig_get = requests.get
+        def _patched_get(*args, **kwargs):
+            kwargs.setdefault("verify", False)
+            return orig_get(*args, **kwargs)
+        requests.get = _patched_get
     try:
         wikipedia.set_lang(language)
         improved_queries = improve_search_query(topic, search_type, language)
@@ -112,3 +124,6 @@ def get_wikipedia_content(
     except Exception as e:
         st.error(f"위키피디아 검색 중 오류 발생: {str(e)}")
         return []
+    finally:
+        if orig_get is not None:
+            requests.get = orig_get

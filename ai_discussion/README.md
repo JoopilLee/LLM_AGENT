@@ -31,10 +31,9 @@ pip install -r requirements.txt
 
 ## 실행 방법
 
-**프로젝트 루트(LLM_AGENT)에서:**
-
 ```bash
-streamlit run ai_discussion/app.py
+streamlit run app.py
 ```
 
-**환경 변수**: 시크릿은 루트 `.env` **`OPENAI_API_KEY`** 필수. (선택) `OPENAI_MODEL`, `OPENAI_EMBEDDING_MODEL`
+**환경 변수**: 
+- 루트 경로에 `.env` 추가
