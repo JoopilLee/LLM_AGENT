@@ -13,8 +13,8 @@ from app.services import (
     get_floors,
     get_reservation,
     get_rooms,
+    get_user_reservations_list,
     parse_iso,
-    reservation_dict,
     resolve_building_id,
     resolve_floor_id,
     resolve_room_id,
@@ -167,28 +167,20 @@ def get_user_reservations(
     start_day = date.today()
     end_day = start_day + timedelta(days=days_ahead)
     b_filter = resolve_building_id(building) if building is not None else None
-    items: List[Dict[str, Any]] = []
-    for b_id, floors in reservation_dict.items():
-        if b_filter is not None and b_id != b_filter:
-            continue
-        for f_id, rooms in floors.items():
-            for r_id, res_map in rooms.items():
-                for res_id, r in res_map.items():
-                    if r["user_name"] != user_name:
-                        continue
-                    d = r["start_datetime"].date()
-                    if start_day <= d <= end_day:
-                        items.append({
-                            "reservation_id": res_id,
-                            "building_id": b_id,
-                            "floor_id": f_id,
-                            "room_id": r_id,
-                            "title": r["title"],
-                            "purpose": r["purpose"],
-                            "start": r["start_datetime"].strftime(ISO_FMT),
-                            "end": r["end_datetime"].strftime(ISO_FMT),
-                        })
-    items.sort(key=lambda x: (x["start"], x["reservation_id"]))
+    raw = get_user_reservations_list(user_name, start_day, end_day, b_filter)
+    items: List[Dict[str, Any]] = [
+        {
+            "reservation_id": r["reservation_id"],
+            "building_id": r["building_id"],
+            "floor_id": r["floor_id"],
+            "room_id": r["room_id"],
+            "title": r["title"],
+            "purpose": r["purpose"],
+            "start": r["start"].strftime(ISO_FMT) if hasattr(r["start"], "strftime") else r["start"],
+            "end": r["end"].strftime(ISO_FMT) if hasattr(r["end"], "strftime") else r["end"],
+        }
+        for r in raw
+    ]
     return {"ok": True, "count": len(items), "items": items}
 
 

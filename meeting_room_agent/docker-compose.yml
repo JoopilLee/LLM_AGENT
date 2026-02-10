@@ -1,0 +1,39 @@
+# meeting_room_agent - PostgreSQL + API 서비스
+# .env에 OPENAI_API_KEY, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME 설정 후:
+#   docker-compose up --build
+#   curl -X POST http://localhost:8000/run -H "Content-Type: application/json" -d '{"query": "에펠탑 17층 비었어?"}'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: meeting_room_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - meeting_room_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    container_name: meeting_room_agent
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # Docker 내부에서는 DB 호스트를 서비스명(db)으로 덮어씀
+      DB_HOST: db
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  meeting_room_pgdata:

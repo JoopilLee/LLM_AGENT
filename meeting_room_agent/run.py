@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import app.core.config  # noqa: F401 - .env 로드
 from app.core.config import check_env_set
+from app.db.session import init_db
 from app.graph.workflow import get_agent
 
 
@@ -20,6 +21,7 @@ def run(query: str) -> dict:
     ok, missing = check_env_set()
     if not ok:
         raise RuntimeError(f"필수 환경 변수가 없습니다: {missing}. .env에 OPENAI_API_KEY를 설정하세요.")
+    init_db()  # PostgreSQL 테이블 생성 및 YAML 시드
     agent = get_agent()
     return agent.invoke({"query": query})
 

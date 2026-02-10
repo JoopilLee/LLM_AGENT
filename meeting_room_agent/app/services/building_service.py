@@ -1,24 +1,20 @@
-# meeting_room_agent/app/services/building_service.py - 빌딩/층/회의실 조회 및 ID 해석
+# meeting_room_agent/app/services/building_service.py - 빌딩/층/회의실 조회 및 ID 해석 (DB)
 
 from typing import Union
 
-from app.services.store import building_ids, floor_ids
+from app.db.repository import db_get_building_ids, db_get_floor_ids, db_get_rooms
 
 
 def get_buildings():
-    return building_ids
+    return db_get_building_ids()
 
 
 def get_floors(building_id):
-    return {floor: floor_ids[building_id][floor][0] for floor in floor_ids[building_id]}
+    return db_get_floor_ids(building_id)
 
 
 def get_rooms(building_id, floor_id):
-    floors = get_floors(building_id)
-    for floor_key in floors:
-        if floors[floor_key] == floor_id:
-            return floor_ids[building_id][floor_key][1]
-    return None
+    return db_get_rooms(building_id, floor_id)
 
 
 def resolve_building_id(building: Union[str, int]) -> int:
