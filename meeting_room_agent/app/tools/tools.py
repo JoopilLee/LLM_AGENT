@@ -2,7 +2,7 @@
 
 from typing import Any, Dict, List, Optional, Union
 
-from langchain.tools import tool
+from langchain_core.tools import tool
 
 from app.services import (
     ISO_FMT,
